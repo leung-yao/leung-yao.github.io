@@ -206,4 +206,4 @@ https://github.com/eliben/code-for-blog/tree/master/2011/debuggers_part2_code
 
 准备阅读并实操一下
 
-![image-20210908105421908](https://gitee.com/gdmzyzl/picgo/raw/master/picbed/image-20210908105421908.png)
+![image-20210908105421908](https://leung-1303067299.cos.ap-guangzhou.myqcloud.com/typora/image-20210908105421908.png)

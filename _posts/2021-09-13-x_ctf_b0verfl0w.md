@@ -12,15 +12,15 @@ categories:
 
 栈可执行
 
-![image-20210913154533194](https://gitee.com/gdmzyzl/picgo/raw/master/picbed/image-20210913154533194.png)
+![image-20210913154533194](https://leung-1303067299.cos.ap-guangzhou.myqcloud.com/typora/image-20210913154533194.png)
 
 fgets可以输入50个字节，padding就占了32了，还有ebp，ret就剩10字节了，无法写入shellcode，那么我们可以考虑在栈的初始位置布置一段shellcode，然后让程序跳转到栈的起始处执行shellcode
 
-![image-20210913154545798](https://gitee.com/gdmzyzl/picgo/raw/master/picbed/image-20210913154545798.png)
+![image-20210913154545798](https://leung-1303067299.cos.ap-guangzhou.myqcloud.com/typora/image-20210913154545798.png)
 
 可以看到0x08048504为jmp esp的gadgets
 
-![image-20210913155034057](https://gitee.com/gdmzyzl/picgo/raw/master/picbed/image-20210913155034057.png)
+![image-20210913155034057](https://leung-1303067299.cos.ap-guangzhou.myqcloud.com/typora/image-20210913155034057.png)
 
 那么payload就可以写成
 

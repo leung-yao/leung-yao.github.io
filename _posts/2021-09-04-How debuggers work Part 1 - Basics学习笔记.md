@@ -42,7 +42,7 @@ long ptrace(enum __ptrace_request request,
 
 request参数决定了CODE的行为以及后续的参数是如何被使用的，参数request的常用的值如下：
 
-![img](https://gitee.com/gdmzyzl/picgo/raw/master/picbed/1414775-20190618175009412-1155621983.png)
+![img](https://leung-1303067299.cos.ap-guangzhou.myqcloud.com/typora/1414775-20190618175009412-1155621983.png)
 
 ### 示例说明
 
@@ -284,9 +284,9 @@ Hello, world!
 
 下面是我的结果
 
-![image-20210906151731026](https://gitee.com/gdmzyzl/picgo/raw/master/picbed/image-20210906151731026.png)
+![image-20210906151731026](https://leung-1303067299.cos.ap-guangzhou.myqcloud.com/typora/image-20210906151731026.png)
 
-![image-20210906151755131](https://gitee.com/gdmzyzl/picgo/raw/master/picbed/image-20210906151755131.png)
+![image-20210906151755131](https://leung-1303067299.cos.ap-guangzhou.myqcloud.com/typora/image-20210906151755131.png)
 
 instr是EIP的操作符和操作数，可以用objdump -d对照上面的结果是否正确
 

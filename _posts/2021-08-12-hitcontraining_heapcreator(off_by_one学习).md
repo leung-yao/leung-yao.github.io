@@ -13,27 +13,27 @@ tags:
 
 典型菜单题
 
-![img](https://gitee.com/gdmzyzl/picgo/raw/master/picbed/1628763276194-5eb9d19c-4e53-47b8-b053-58a9a11fc43b.png)
+![img](https://leung-1303067299.cos.ap-guangzhou.myqcloud.com/typora/1628763276194-5eb9d19c-4e53-47b8-b053-58a9a11fc43b.png)
 
 创建堆块
 
-![img](https://gitee.com/gdmzyzl/picgo/raw/master/picbed/1628763308672-6d04568b-d687-4e92-9435-9315c0509562.png)
+![img](https://leung-1303067299.cos.ap-guangzhou.myqcloud.com/typora/1628763308672-6d04568b-d687-4e92-9435-9315c0509562.png)
 
 这里heaparray其实就是个一个结构体
 
-![image-20220222141701109](https://gitee.com/gdmzyzl/picgo/raw/master/picbed/image-20220222141701109.png)
+![image-20220222141701109](https://leung-1303067299.cos.ap-guangzhou.myqcloud.com/typora/image-20220222141701109.png)
 
 编辑堆块，这里允许填写size+1个字节，存在溢出，考虑off_by_one
 
-![img](https://gitee.com/gdmzyzl/picgo/raw/master/picbed/1628763557429-e63ee5ee-21b8-4a6d-96ad-d8f612a2d376.png)
+![img](https://leung-1303067299.cos.ap-guangzhou.myqcloud.com/typora/1628763557429-e63ee5ee-21b8-4a6d-96ad-d8f612a2d376.png)
 
 打印size和content
 
-![img](https://gitee.com/gdmzyzl/picgo/raw/master/picbed/1628763639613-85fbe0b4-a26f-4d10-8aac-141cac7d5226.png)
+![img](https://leung-1303067299.cos.ap-guangzhou.myqcloud.com/typora/1628763639613-85fbe0b4-a26f-4d10-8aac-141cac7d5226.png)
 
 free堆块
 
-![img](https://gitee.com/gdmzyzl/picgo/raw/master/picbed/1628763667187-531ee658-dcd5-40da-a27a-dbca9c8941f6.png)
+![img](https://leung-1303067299.cos.ap-guangzhou.myqcloud.com/typora/1628763667187-531ee658-dcd5-40da-a27a-dbca9c8941f6.png)
 
 ## 调试分析
 

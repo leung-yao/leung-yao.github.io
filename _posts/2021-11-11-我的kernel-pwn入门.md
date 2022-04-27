@@ -32,7 +32,7 @@ categories:
 
 （4）改变权限的函数：执行 commit_creds(prepare_kernel_cred(0)) 即可获得 root 权限（root 的 uid，gid 均为 0）。两个函数的地址都可以在 /proc/kallsyms 中查看（较老的内核版本中是 /proc/ksyms，/proc/kallsyms 的内容需要 root 权限才能查看）。
 
-![image-20211111141506389](https://gitee.com/gdmzyzl/picgo/raw/master/picbed/image-20211111141506389.png)
+![image-20211111141506389](https://leung-1303067299.cos.ap-guangzhou.myqcloud.com/typora/image-20211111141506389.png)
 
 （5）攻击方法
 
@@ -52,7 +52,7 @@ categories:
 
 首先是内核中用task_struct来作为一个进程的描述符，该结构体定义于内核源码`include/linux/sched.h`中
 
-![image-20211111142639374](https://gitee.com/gdmzyzl/picgo/raw/master/picbed/image-20211111142639374.png)
+![image-20211111142639374](https://leung-1303067299.cos.ap-guangzhou.myqcloud.com/typora/image-20211111142639374.png)
 
 结构体定义太长，只关心下面几个参数
 
@@ -248,7 +248,7 @@ struct cred *prepare_kernel_cred(struct task_struct *daemon)
 
 解压得到三个文件
 
-![image-20211111150522618](https://gitee.com/gdmzyzl/picgo/raw/master/picbed/image-20211111150522618.png)
+![image-20211111150522618](https://leung-1303067299.cos.ap-guangzhou.myqcloud.com/typora/image-20211111150522618.png)
 
 然后将rootfs.cpio解压，看看有什么东西，可以先创建一个文件夹，将用rootfs.cpio改成rootfs.cpio.gz
 
@@ -288,23 +288,23 @@ poweroff -d 0  -f
 
 把这个驱动文件拿出来
 
-![image-20211111152759120](https://gitee.com/gdmzyzl/picgo/raw/master/picbed/image-20211111152759120.png)
+![image-20211111152759120](https://leung-1303067299.cos.ap-guangzhou.myqcloud.com/typora/image-20211111152759120.png)
 
 没有开 PIE，无 canary 保护，没有去除符号表
 
 用 IDA 打开分析，既然没有去除符号表，shift + F9 先看一下有什么结构体，可以发现如下的结构体：
 
-![image-20211111153710832](https://gitee.com/gdmzyzl/picgo/raw/master/picbed/image-20211111153710832.png)
+![image-20211111153710832](https://leung-1303067299.cos.ap-guangzhou.myqcloud.com/typora/image-20211111153710832.png)
 
 再看一下主要函数
 
 **babyioctl**：定义了 0x10001 的命令，可以释放全局变量 babydev_struct 中的 device_buf，再根据用户传递的 size 重新申请一块内存，并设置 device_buf_len。这里的v3是rdx也就是第三个参数，然后赋值给了v4，
 
-![image-20211111153437401](https://gitee.com/gdmzyzl/picgo/raw/master/picbed/image-20211111153437401.png)
+![image-20211111153437401](https://leung-1303067299.cos.ap-guangzhou.myqcloud.com/typora/image-20211111153437401.png)
 
 **babyopen:** 申请一块空间，大小为 0x40 字节，地址存储在全局变量 babydev_struct.device_buf 上，并更新 babydev_struct.device_buf_len
 
-![image-20211111154350537](https://gitee.com/gdmzyzl/picgo/raw/master/picbed/image-20211111154350537.png)
+![image-20211111154350537](https://leung-1303067299.cos.ap-guangzhou.myqcloud.com/typora/image-20211111154350537.png)
 
 这里的kmalloc_caches[6]用源码解释一下
 
@@ -347,15 +347,15 @@ static struct {
 
 **babyread:** 先检查长度是否小于 babydev_struct.device_buf_len，然后把 babydev_struct.device_buf 中的数据拷贝到 buffer 中，buffer 和长度都是用户传递的参数，我这里的IDA反编译可能不清楚，原型是copy_to_user(buffer, babydev_struct.device_buf, v4);
 
-![image-20211111160038549](https://gitee.com/gdmzyzl/picgo/raw/master/picbed/image-20211111160038549.png)
+![image-20211111160038549](https://leung-1303067299.cos.ap-guangzhou.myqcloud.com/typora/image-20211111160038549.png)
 
 **babywrite:** 类似 babyread，不同的是从 buffer 拷贝到全局变量中，copy_from_user(babydev_struct.device_buf, buffer, v4);
 
-![image-20211111160819528](https://gitee.com/gdmzyzl/picgo/raw/master/picbed/image-20211111160819528.png)
+![image-20211111160819528](https://leung-1303067299.cos.ap-guangzhou.myqcloud.com/typora/image-20211111160819528.png)
 
 **babyrelease:** 释放空间
 
-![image-20211111160930800](https://gitee.com/gdmzyzl/picgo/raw/master/picbed/image-20211111160930800.png)
+![image-20211111160930800](https://leung-1303067299.cos.ap-guangzhou.myqcloud.com/typora/image-20211111160930800.png)
 
 还有 babydriver_init() 和 babydriver_exit() 两个函数分别完成了 **/dev/babydev** 设备的初始化和清理
 
@@ -486,7 +486,7 @@ loeng@loeng-pwn:~/kernel/ciscn2017_babydriver/core$ find . | cpio -o -H newc > .
 loeng@loeng-pwn:~/kernel/ciscn2017_babydriver/core/lib/modules/4.4.72$ sudo ./boot.sh
 ```
 
-![image-20211111164818222](https://gitee.com/gdmzyzl/picgo/raw/master/picbed/image-20211111164818222.png)
+![image-20211111164818222](https://leung-1303067299.cos.ap-guangzhou.myqcloud.com/typora/image-20211111164818222.png)
 
 成功提权（真TM折磨）
 
@@ -588,27 +588,27 @@ loeng@loeng-pwn:~/kernel/qwb2018_core/give_to_player/core$ checksec core.ko
 
 **init_module()** 注册了 `/proc/core`
 
-![image-20211111193932077](https://gitee.com/gdmzyzl/picgo/raw/master/picbed/image-20211111193932077.png)
+![image-20211111193932077](https://leung-1303067299.cos.ap-guangzhou.myqcloud.com/typora/image-20211111193932077.png)
 
 **exit_core()** 删除 `/proc/core`
 
-![image-20211111193949916](https://gitee.com/gdmzyzl/picgo/raw/master/picbed/image-20211111193949916.png)
+![image-20211111193949916](https://leung-1303067299.cos.ap-guangzhou.myqcloud.com/typora/image-20211111193949916.png)
 
 **core_ioctl()** 定义了三条命令，分别调用 **core_read()**，**core_copy_func()** 和设置全局变量 **off**
 
-![image-20211111194026506](https://gitee.com/gdmzyzl/picgo/raw/master/picbed/image-20211111194026506.png)
+![image-20211111194026506](https://leung-1303067299.cos.ap-guangzhou.myqcloud.com/typora/image-20211111194026506.png)
 
 **core_read()** 从 `v4[off]` 拷贝 64 个字节到用户空间，但要注意的是全局变量 `off` 使我们能够控制的，因此可以合理的控制 `off` 来 leak canary 和一些地址
 
-![image-20211111194621029](https://gitee.com/gdmzyzl/picgo/raw/master/picbed/image-20211111194621029.png)
+![image-20211111194621029](https://leung-1303067299.cos.ap-guangzhou.myqcloud.com/typora/image-20211111194621029.png)
 
 **core_copy_func()** 从全局变量 `name` 中拷贝数据到局部变量中，长度是由我们指定的，当要注意的是 qmemcpy 用的是 `unsigned __int16`，但传递的长度是 `signed __int64`，因此如果控制传入的长度为 `0xffffffffffff0000|(0x100)` 等值，就可以栈溢出了
 
-![image-20211111194757153](https://gitee.com/gdmzyzl/picgo/raw/master/picbed/image-20211111194757153.png)
+![image-20211111194757153](https://leung-1303067299.cos.ap-guangzhou.myqcloud.com/typora/image-20211111194757153.png)
 
 **core_write()** 向全局变量 `name` 上写，这样通过 `core_write()` 和 `core_copy_func()` 就可以控制 ropchain 了
 
-![image-20211111195116166](https://gitee.com/gdmzyzl/picgo/raw/master/picbed/image-20211111195116166.png)
+![image-20211111195116166](https://leung-1303067299.cos.ap-guangzhou.myqcloud.com/typora/image-20211111195116166.png)
 
 ### 思路
 
@@ -685,7 +685,7 @@ setsid /bin/cttyhack setuidgid 0 /bin/sh
 
 然后重新打包，这样启动就是root了
 
-![image-20211111202446217](https://gitee.com/gdmzyzl/picgo/raw/master/picbed/image-20211111202446217.png)
+![image-20211111202446217](https://leung-1303067299.cos.ap-guangzhou.myqcloud.com/typora/image-20211111202446217.png)
 
 ```bash
 # qemu内
@@ -869,7 +869,7 @@ gcc exp.c -static -masm=intel -g -o exp
 
 然后QEMU运行
 
-![image-20211114122536341](https://gitee.com/gdmzyzl/picgo/raw/master/picbed/image-20211114122536341.png)
+![image-20211114122536341](https://leung-1303067299.cos.ap-guangzhou.myqcloud.com/typora/image-20211114122536341.png)
 
 提权成功
 

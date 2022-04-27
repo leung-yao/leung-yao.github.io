@@ -102,7 +102,7 @@ c3d98686223ad69ea29c811aaab35d343ff1ae9e  Canon_40D.jpg
 a7b619028af3d8e5ac106a697b06efcde0649249  mutated.jpg
 ```
 
-![img](https://gitee.com/gdmzyzl/picgo/raw/master/picbed/bcompare.PNG)
+![img](https://leung-1303067299.cos.ap-guangzhou.myqcloud.com/typora/bcompare.PNG)
 
 #### Gynvael’s Magic Numbers
 

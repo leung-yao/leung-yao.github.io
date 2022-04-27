@@ -11,7 +11,7 @@ tags:
 
 ## IDA分析
 
-![image-20220222141319826](https://gitee.com/gdmzyzl/picgo/raw/master/picbed/image-20220222141319826.png)
+![image-20220222141319826](https://leung-1303067299.cos.ap-guangzhou.myqcloud.com/typora/image-20220222141319826.png)
 
 主要功能点就在vul_function()里，第一个read，s在bss段里，虽然可以输入0x200，没法溢出；第二个read只能输入0x20字节，只能覆盖ebp和返回地址，这里发现s在bss段里而且可以输入挺多字节，可以考虑栈迁移到bss段里，但是这题没有提供system和/bin/sh，我们还需要构造ROP链泄露libc，栈迁移知识看我另一篇笔记。
 
@@ -29,7 +29,7 @@ payload1 = 'a'*0x18 + p32(bss) + p32(leave_ret)
 p.sendafter('say?',payload1)
 ```
 
-![image-20220222141304741](https://gitee.com/gdmzyzl/picgo/raw/master/picbed/image-20220222141304741.png)
+![image-20220222141304741](https://leung-1303067299.cos.ap-guangzhou.myqcloud.com/typora/image-20220222141304741.png)
 
 之后就是简单ROP了，完整EXP，掌握了栈迁移就很简单了
 
